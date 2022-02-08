@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org/" lang="en">
+
+<head th:replace="layout/layout.html :: head"></head>
+
+<body>
+    <header th:replace="layout/layout.html :: header"></header>
+
+    <div class="container">
+        <div class="card shadow-lg my-4">
+            <div class="card-header">
+                <h1 class="text-dark text-center border border-dark border-top-0 border-left-0 border-right-0"
+                    th:text="${titulo}"></h1>
+                <a class="btn btn-danger btn-sm float-left" th:href="@{/pagos/index}">Regresar</a>
+            </div>
+            <div class="card-body">
+                <form th:action="@{/pagos/store/}" method="POST">
+                    <div class="row my-3">
+                        <label class="col-sm-2">Notas: </label>
+                        <div class=" col-sm-8 alert alert-success">
+                            <small>El pago se define en base agregando %5 del sueldo base por cada año de antiguedad
+                                <br>
+                                y agregando otro 5% sueldo base por cada auto vendido
+                            </small>
+                        </div>
+                    </div>
+                    <div class=" form-group row">
+                        <label for="buscar_empleado" class="col-sm-2 col-form-label">Buscar Empleado</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="buscar_empleado" id="buscar_empleado" class="form-control">
+                        </div>
+                    </div>
+                    <table th:replace="pagos/tabla-plantilla-items :: tablaPlantillaItems"></table>
+
+                    <table id="tablaEmpleados" class="table table-sm table-striped table-hover">
+                        <thead>
+                            <th>Nombre</th>
+                            <th>Sueldo base</th>
+                            <th>Antiguedad</th>
+                            <th>Cantidad de autos vendidos</th>
+                            <th>Total de Pago</th>
+                            <th>Eliminar</th>
+                        </thead>
+                        <tbody>
+                            <!--Aqui se van a acrear las lineas de los pagos, lineas que estan en tabla-plantilla-items-->
+
+                        </tbody>
+                    </table>
+                    <div class="form-group row justify-content-center">
+                        <button type="submit" class="btn btn-primary mr-1">Crear Pagos</button>
+                        <a th:href="@{/pagos/index}" class="btn btn-danger ml-1">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="layout/layout.html ::footer"></footer>
+    <script th:replace="pagos/js/autocomplete-empleado :: javascript"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+    <header th:replace="layout/layout ::header"></header>
+
+    <div class="container">
+        <div class="card shadow-lg my-4">
+            <div class="card-header">
+                <h1 class="text-dark text-center border border-dark border-top-0 border-left-0 border-right-0"
+                    th:text="${titulo}"></h1> 
+                    <a class="btn btn-info float-right" th:href="@{/pagos/create}">Realizar Pagos</a>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <th>ID</th>
+                        <th>Empleado</th>
+                        <th>Monto</th>
+                        <th>Fecha de pago</th>
+                    </thead>
+                    <tbody>
+                        <tr th:each="pago : ${pagos}">
+                            <td th:text="${pago.id}"></td>
+                            <td th:text="${pago.empleado.toString()}"></td>
+                            <td th:text="'$'+${pago.cantidad}"></td>
+                            <td th:text="${#calendars.format(pago.createdAt,'dd-MM-yyyy')}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

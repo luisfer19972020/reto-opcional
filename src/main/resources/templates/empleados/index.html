@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org">
+
+<head th:replace="layout/layout :: head"></head>
+
+<body>
+    <header th:replace="layout/layout ::header"></header>
+
+    <div class="container">
+        <div class="card shadow-lg my-4">
+            <div class="card-header">
+                <h1 class="text-dark text-center border border-dark border-top-0 border-left-0 border-right-0"
+                    th:text="${titulo}"></h1>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Apellidos</th>
+                        <th>Sueldo Base</th>
+                        <th>Año de inicio</th>
+                    </thead>
+                    <tbody>
+                        <tr th:each="empleado : ${empleados}">
+                            <td th:text="${empleado.id}"></td>
+                            <td th:text="${empleado.nombre}"></td>
+                            <td th:text="${empleado.apellidos}"></td>
+                            <td th:text="'$'+${empleado.salarioBase}"></td>
+                            <td th:text="${empleado.createdAt}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <footer th:replace="layout/layout :: footer"></footer>
+</body>
+
+</html>

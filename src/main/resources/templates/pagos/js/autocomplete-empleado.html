@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymleaf.org">
+
+</html>
+
+<body>
+    <script type="text/javascript" th:fragment="javascript">
+        $(document).ready(function () {
+            $('#buscar_empleado').autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/empleados/cargar-empleados/" + request.term,
+                        dataType: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data, function (empleado) {
+                                return {
+                                    value: empleado.id,
+                                    label: empleado.nombre,
+                                    apellidos: empleado.apellidos,
+                                    salario: empleado.salarioBase,
+                                    creado: empleado.createdAt,
+                                };
+                            }));
+                        },
+                    });
+                },
+                select: function (event, response) {
+                    if (itemsHelper.empleadoRepetido(response.item.value)) {
+                        alert("Ya agregaste un pago a este empleado")
+                        return false;
+                    }
+                    var linea = $("#tBodyPlantillaItems").html();
+                    linea = linea.replace(/{ID}/g, response.item.value);
+                    linea = linea.replace(/{NOMBRE}/g, response.item.label);
+                    linea = linea.replace(/{APELLIDOS}/g, response.item.apellidos);
+                    linea = linea.replace(/{SALARIO}/g, response.item.salario);
+                    linea = linea.replace(/{CREADO}/g, response.item.creado);
+
+                    $("#tablaEmpleados tbody").append(linea);
+                    itemsHelper.calcularPago(response.item.value, response.item.salario, response.item.creado, 0)
+                    return false;
+                }
+            });
+            $("form").submit(function () {
+                $("#tBodyPlantillaItems").remove();
+                return;
+            });
+        });
+
+        var itemsHelper = {
+            calcularPago: function (id, salario, creado, autosVendidos) {
+
+                let bonoAntiguedad = (salario * ((this.añoActual - creado) * 5)) / 100;
+                let bonoAutosVendidos = (salario * (autosVendidos * 5) / 100)
+                $("#total_pago" + id).html(bonoAutosVendidos + bonoAntiguedad + salario)
+            },
+            empleadoRepetido: (id) => {
+                var resultado = false;
+                $('input[name="item_id[]"]').each(function () {
+                    if (parseInt(id) == parseInt($(this).val())) {
+                        resultado = true;
+                    }
+                });
+                return resultado;
+            },
+            eliminarRow: function (id) {
+                $('#row_' + id).remove();
+            },
+            añoActual: new Date().getFullYear(),
+        };
+    </script>
+</body>
+
+</html>
