@@ -9,4 +9,5 @@ public interface IEmpleadoService {
     public Empleado findById(Long id);
     public List<Empleado> findByNombre(String term);
     public Double getSalario(Empleado empleado, Integer cantidad);
+    
 }

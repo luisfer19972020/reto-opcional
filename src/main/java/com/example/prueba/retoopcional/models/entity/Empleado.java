@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "empleados")
 public class Empleado implements Serializable {
@@ -31,6 +33,7 @@ public class Empleado implements Serializable {
     private Integer createdAt;
 
     @OneToMany(mappedBy = "empleado", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     List<Pago> pagos;
 
     public Empleado() {

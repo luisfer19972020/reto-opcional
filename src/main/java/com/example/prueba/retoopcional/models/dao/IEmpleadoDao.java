@@ -6,10 +6,9 @@ import com.example.prueba.retoopcional.models.entity.Empleado;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
 public interface IEmpleadoDao extends CrudRepository<Empleado,Long> {
     @Query("select e from Empleado e where e.nombre like %?1%")
     public List<Empleado> findByNombre(String term);
+
 }
